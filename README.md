@@ -1,65 +1,93 @@
-# multiware
-🧭 ESP32 Multi-Sensor Menu System with OLED Display
-This project implements a minimal menu-driven interface for an ESP32-based embedded system using an OLED display, multiple sensors, and peripherals. It features a navigable UI controlled by five buttons and supports modules like SD card, ultrasonic sensor, IR sensors, motor drivers, and servo motors.
+🤖 ESP32 Autonomous Obstacle-Avoiding Robot
+This project demonstrates a simple yet effective autonomous robot using an ESP32, HC-SR04 ultrasonic sensor, and L298N motor driver. The robot detects obstacles and avoids them by reversing and turning, using real-time sensor input and motor control.
 
-📋 Features
-OLED Menu UI: Paginated menu with 2x2 layout and multiple pages.
+📦 Features
+Ultrasonic Distance Measurement: Detects obstacles using HC-SR04.
 
-Button Navigation: Up, Down, Left, Right, and Select buttons with debounce logic.
+Motor Control via H-Bridge: Drives two DC motors with PWM and direction pins.
 
-SD Card Integration: File listing, deletion, and creation via SPI.
+Obstacle Avoidance Logic: Stops, reverses, and turns when an object is detected.
 
-Modular Sensor Support: IR, ultrasonic, MPU6050, and servo motor.
+Modular Functions: Clean structure for movement and sensor logic.
 
-Status Feedback: Transient messages for user actions.
+🛠️ Hardware Requirements
+ESP32 microcontroller
 
-🛠️ Hardware Components
-ESP32 Dev Board
+HC-SR04 ultrasonic sensor
 
-SH1106 OLED Display (I2C)
+L298N motor driver module
 
-HC-SR04 Ultrasonic Sensor
+2x DC motors
 
-IR Transmitter and Receiver
+Power supply (battery or USB)
 
-L298N Motor Driver
-
-Servo Motor
-
-SD Card Module (SPI)
-
-5x Push Buttons
-
-LED (optional for status)
+Jumper wires and breadboard (optional)
 
 📐 Pin Configuration
-Component	Function	GPIO Pin
-Buttons	UP/DOWN/LEFT/RIGHT/SELECT	32, 33, 25, 26, 27
-OLED & MPU6050	SDA/SCL (shared)	21, 22
-IR Sensors	TX/RX	17, 16
-Ultrasonic	TRIG/ECHO	4, 2
-LED	Status Indicator	5
-SD Card Module	MOSI/MISO/SCK/CS	23, 19, 18, 15
-Motor Driver	ENA/IN1/IN2	13, 12, 14
-Servo Motor	Control Signal	3
+Component	Pin Name	GPIO Pin
+Ultrasonic Sensor	TRIG	5
+Ultrasonic Sensor	ECHO	18
+Motor A	ENA	23
+Motor B	ENB	22
+Motor A	IN1	16
+Motor A	IN2	17
+Motor B	IN3	19
+Motor B	IN4	21
 ⚙️ Code Structure
-setup(): Initializes display, buttons, SD card, and I2C.
+setup()
+Initializes serial communication.
 
-loop(): Handles button input and menu navigation.
+Configures GPIO pins for motors and ultrasonic sensor.
 
-readButtonsAndNavigate(): Debounces and maps button presses.
+loop()
+Continuously checks distance.
 
-handleButtonPress(): Context-aware navigation and actions.
+Executes avoidance if obstacle is within 20 cm.
 
-drawPage(): Renders current menu page on OLED.
+Moves forward if path is clear.
 
-settings.h: External configuration and SD card utilities.
+Sensor Function
+getDistance(): Measures distance using ultrasonic sensor.
+
+Movement Functions
+moveForward(pwmA, pwmB)
+
+moveBackward(pwmA, pwmB)
+
+turnRight(pwmA, pwmB)
+
+stopMotors()
+
+Obstacle Handling
+avoidObstacle():
+
+Stop motors
+
+Reverse briefly
+
+Stop again
+
+Turn right
+
+Resume forward motion
+
+🧠 Behavior Logic
+If distance ≥ 20 cm → Move forward
+
+If distance < 20 cm → Stop → Reverse → Turn → Resume
 
 📈 Future Enhancements
-Add sensor data visualization (e.g., MPU6050 readings).
+Add left-turn logic
 
-Implement Wi-Fi setup and web interface.
+Use IR or bump sensors
 
-Add file viewer/editor for SD card contents.
+Speed control based on proximity
 
-Expand menu with real-time telemetry and control options.
+Add Bluetooth/Wi-Fi for remote control
+
+🧪 Testing Tips
+Test ultrasonic sensor independently
+
+Verify motor directions and PWM signals
+
+Use serial output for debugging
