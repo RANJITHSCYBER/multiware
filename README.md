@@ -1,93 +1,73 @@
-🤖 ESP32 Autonomous Obstacle-Avoiding Robot
-This project demonstrates a simple yet effective autonomous robot using an ESP32, HC-SR04 ultrasonic sensor, and L298N motor driver. The robot detects obstacles and avoids them by reversing and turning, using real-time sensor input and motor control.
+🧠 ESP32 MultiWare System: Modular Sensor & Control Platform
+This project showcases a modular ESP32-based system integrating multiple sensors and peripherals into a unified menu-driven interface. Designed for robotics, automation, and embedded experimentation, it features a navigable OLED UI, real-time sensor feedback, and SD card interaction.
 
-📦 Features
-Ultrasonic Distance Measurement: Detects obstacles using HC-SR04.
+📦 Key Features
+OLED Menu Interface: Paginated UI with button navigation for selecting modules.
 
-Motor Control via H-Bridge: Drives two DC motors with PWM and direction pins.
+Multi-Sensor Integration: Ultrasonic, IR, MPU6050, and more.
 
-Obstacle Avoidance Logic: Stops, reverses, and turns when an object is detected.
+Motor & Servo Control: Supports L298N motor driver and servo motor.
 
-Modular Functions: Clean structure for movement and sensor logic.
+SD Card File System: View, create, and delete files via SPI.
 
-🛠️ Hardware Requirements
-ESP32 microcontroller
+Modular Architecture: Easily extendable with new modules and logic.
 
-HC-SR04 ultrasonic sensor
+🛠️ Hardware Components
+ESP32 Dev Board
 
-L298N motor driver module
+SH1106 OLED Display (I2C)
 
-2x DC motors
+HC-SR04 Ultrasonic Sensor
 
-Power supply (battery or USB)
+IR Transmitter & Receiver
 
-Jumper wires and breadboard (optional)
+MPU6050 Accelerometer/Gyroscope
 
-📐 Pin Configuration
-Component	Pin Name	GPIO Pin
-Ultrasonic Sensor	TRIG	5
-Ultrasonic Sensor	ECHO	18
-Motor A	ENA	23
-Motor B	ENB	22
-Motor A	IN1	16
-Motor A	IN2	17
-Motor B	IN3	19
-Motor B	IN4	21
-⚙️ Code Structure
-setup()
-Initializes serial communication.
+L298N Motor Driver
 
-Configures GPIO pins for motors and ultrasonic sensor.
+Servo Motor
 
-loop()
-Continuously checks distance.
+SD Card Module (SPI)
 
-Executes avoidance if obstacle is within 20 cm.
+5x Push Buttons
 
-Moves forward if path is clear.
+LED (optional)
 
-Sensor Function
-getDistance(): Measures distance using ultrasonic sensor.
+📐 Pin Mapping
+Module	Function	GPIO Pin
+Buttons	UP/DOWN/LEFT/RIGHT/SELECT	32, 33, 25, 26, 27
+OLED & MPU6050	SDA/SCL (shared)	21, 22
+IR Sensors	TX/RX	17, 16
+Ultrasonic Sensor	TRIG/ECHO	4, 2
+LED	Status Indicator	5
+SD Card Module	MOSI/MISO/SCK/CS	23, 19, 18, 15
+Motor Driver	ENA/IN1/IN2	13, 12, 14
+Servo Motor	Control Signal	3
+⚙️ Software Overview
+setup(): Initializes display, buttons, SD card, and I2C devices.
 
-Movement Functions
-moveForward(pwmA, pwmB)
+loop(): Handles button input and menu navigation.
 
-moveBackward(pwmA, pwmB)
+drawPage(): Renders current menu page.
 
-turnRight(pwmA, pwmB)
+readButtonsAndNavigate(): Debounces and maps button presses.
 
-stopMotors()
+handleButtonPress(): Executes context-aware actions.
 
-Obstacle Handling
-avoidObstacle():
+settings.h: External configuration and SD utilities.
 
-Stop motors
+📁 Repository Structure
+Code
+├── src/                  # Main Arduino sketch
+├── settings.h            # SD card and file system utilities
+├── assets/               # Wiring diagrams, photos, videos
+├── docs/                 # Module documentation
+└── README.md             # Project overview and setup guide
+🚀 Getting Started
+Clone the repository and open the sketch in Arduino IDE.
 
-Reverse briefly
+Install required libraries (U8g2, Wire, SPI, SD).
 
-Stop again
+Upload to ESP32 and connect hardware.
 
-Turn right
-
-Resume forward motion
-
-🧠 Behavior Logic
-If distance ≥ 20 cm → Move forward
-
-If distance < 20 cm → Stop → Reverse → Turn → Resume
-
-📈 Future Enhancements
-Add left-turn logic
-
-Use IR or bump sensors
-
-Speed control based on proximity
-
-Add Bluetooth/Wi-Fi for remote control
-
-🧪 Testing Tips
-Test ultrasonic sensor independently
-
-Verify motor directions and PWM signals
-
-Use serial output for debugging
+Navigate the menu using buttons and explore modules.
